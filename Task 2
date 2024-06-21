@@ -1,0 +1,79 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentGradeManager {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Double> grades = new ArrayList<>();
+
+        System.out.println("Welcome to the Student Grade Manager");
+
+        // Input grades for different subjects or assignments
+        while (true) {
+            System.out.print("Enter a grade (or enter 'done' to finish): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            try {
+                double grade = Double.parseDouble(input);
+                if (grade < 0 || grade > 100) {
+                    System.out.println("Invalid grade! Grade must be between 0 and 100.");
+                    continue;
+                }
+                grades.add(grade);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a valid grade number.");
+            }
+        }
+
+        // Calculate average grade
+        double sum = 0.0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        double averageGrade = sum / grades.size();
+
+        // Determine letter grade
+        char letterGrade;
+        if (averageGrade >= 90) {
+            letterGrade = 'A';
+        } else if (averageGrade >= 80) {
+            letterGrade = 'B';
+        } else if (averageGrade >= 70) {
+            letterGrade = 'C';
+        } else if (averageGrade >= 60) {
+            letterGrade = 'D';
+        } else {
+            letterGrade = 'F';
+        }
+
+        // Display results
+        System.out.printf("Overall Grade Summary:%n");
+        System.out.printf("Average Grade: %.2f%n", averageGrade);
+        System.out.printf("Letter Grade: %c%n", letterGrade);
+
+        // Calculate GPA (assuming a standard 4.0 scale)
+        double gpa = calculateGPA(averageGrade);
+        System.out.printf("GPA: %.2f%n", gpa);
+
+        scanner.close();
+    }
+
+    private static double calculateGPA(double averageGrade) {
+        if (averageGrade >= 90) {
+            return 4.0;
+        } else if (averageGrade >= 80) {
+            return 3.0;
+        } else if (averageGrade >= 70) {
+            return 2.0;
+        } else if (averageGrade >= 60) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+}
